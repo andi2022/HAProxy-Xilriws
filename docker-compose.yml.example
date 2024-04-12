@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./haproxy.cfg
+        target: /usr/local/etc/haproxy/haproxy.cfg
+      - type: bind
+        source: ./bancheck_ptc.sh
+        target: /usr/local/bin/bancheck_ptc.sh
+      - type: bind
+        source: ./curl
+        target: /usr/local/bin/curl
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true
+    ports:
+      - "9101:9101" # change left one for external port
+  squid:
+    image: ubuntu/squid
+    container_name: squid
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ./squid.conf
+        target: /etc/squid/squid.conf
+      - type: bind
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+      - type: bind
+        source: /etc/timezone
+        target: /etc/timezone
+        read_only: true

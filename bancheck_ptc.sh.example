@@ -1,0 +1,15 @@
+#!/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+VIP=$1
+VPT=$2
+RIP=$3
+RPT=$4
+
+
+#Bancheck for proxy with authentication.
+cmd=`curl -I -s -U proxyuser:proxypasswort -x ${RIP}:${RPT} https://access.pokemon.com/login 2>/dev/null | grep -e "HTTP/1.1 200"`
+
+#Bancheck for proxy without authentication. IP whitelisted.
+#cmd=`curl -I -s -x ${RIP}:${RPT} https://access.pokemon.com/login 2>/dev/null | grep -e "HTTP/1.1 200"`
+
+exit ${?}
