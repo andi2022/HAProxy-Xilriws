@@ -70,6 +70,7 @@ networks:
 
 --------------------------------------------------
 **Final notes**
+
 The curl executable is needed because the official HAProxy docker image don't have curl included.
 
 Xilriws is a tool developed by the [UnownHash](https://github.com/UnownHash) team.
