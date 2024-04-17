@@ -24,6 +24,7 @@ services:
         read_only: true
     ports:
       - "9101:9101" # change left one for external port
+      - "9100:9100"
   squid:
     image: ubuntu/squid
     container_name: squid
