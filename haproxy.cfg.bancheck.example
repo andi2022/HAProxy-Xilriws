@@ -1,4 +1,5 @@
 global
+  external-check
   insecure-fork-wanted				  
   log stdout format raw local0 debug
 
@@ -70,11 +71,21 @@ backend squid
   server squid squid:3128
 
 backend proxy_ptc
-  balance roundrobin
-				
+  # If you're setting up HAProxy on the same network, use `balance source`.
+  # If you're setting up HAProxy on an externally hosted server, use `balance leastconn`.
+  balance source
+  #balance leastconn					
+
   # Set the max connections for each server to 1000 so you don't drop data
   # This defauls to 10% of maxconn or 10% of the default (which limits it to 200 connections)
   fullconn 1000
+
+  # This section of external-check settings is important for checking if your proxy IP is banned.
+  option external-check
+  external-check path "/usr/bin:/bin:/usr/local/bin"
+
+  # The `external-check command` is used with the location of the file created in the next section.
+  external-check command /usr/local/bin/bancheck_ptc.sh
 
   # The `http-request add-header Proxy-Authorization` is only needed if your proxies require authentication
   ## Replace BASE64ENCODEDAUTH with your base64-encoded "user:password"

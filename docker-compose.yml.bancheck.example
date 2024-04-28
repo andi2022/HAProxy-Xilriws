@@ -9,6 +9,12 @@ services:
         source: ./haproxy.cfg
         target: /usr/local/etc/haproxy/haproxy.cfg
       - type: bind
+        source: ./bancheck_ptc.sh
+        target: /usr/local/bin/bancheck_ptc.sh
+      - type: bind
+        source: ./curl
+        target: /usr/local/bin/curl
+      - type: bind
         source: /etc/localtime
         target: /etc/localtime
         read_only: true
